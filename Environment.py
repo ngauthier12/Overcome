@@ -19,5 +19,16 @@ class Environment:
     def simulate(self, individual_count, generation_count):
         # Create population
         population = []
-        for i in range(individual_count):
+        for individual_index in range(individual_count):
             population.append(copy.deepcopy(self.genetic_data))
+
+        # Iterate
+        for generation_index in range(generation_count):
+            # Evaluate score
+            for individual in population:
+                individual.score = self.fitness_evaluator.evaluate(individual, population)
+
+            # Sort by score
+            # Replace loosers by combination of winners
+            # Apply mutation
+

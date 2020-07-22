@@ -3,6 +3,8 @@ from IGeneticData import *
 
 class SimpleGeneticData(IGeneticData):
 
+    supported_types = [float, int, bool]
+
     class Parameter:
         def __init__(self, name, variable_type, value):
             self.name = name
@@ -12,37 +14,19 @@ class SimpleGeneticData(IGeneticData):
     def __init__(self):
         super().__init__()
         self.parameters = []
-        self.paramters_by_name = {}
+        self.parameters_by_name = {}
 
-    def register_float(self, name, default = 0.0):
-        assert name is not None, "Expecting not None name"
-        assert isinstance(name, str), "Expecting name to be a string"
+    def __setitem__(self, key, value):
+        assert key is not None, "Expecting not None key"
+        assert isinstance(key, str), "Expecting key to be a string"
 
-        assert default is not None, "Expecting a not None default"
-        assert isinstance(default, float), "Expecting name to be a float"
+        assert value is not None, "Expecting a not None value"
+        assert type(value) in self.supported_types, "Parameter type is not supported"
 
-        parameter = self.Parameter(name, type(float), default)
+        parameter = self.Parameter(name=key, variable_type=type(value), value=value)
         self.parameters.append(parameter)
-        self.paramters_by_name[name] = parameter
+        self.parameters_by_name[key] = parameter
 
-    def register_int(self, name, default=0):
-        assert name is not None, "Expecting not None name"
-        assert isinstance(name, str), "Expecting name to be a string"
-
-        assert default is not None, "Expecting a not None default"
-        assert isinstance(default, int), "Expecting name to be an int"
-
-        parameter = self.Parameter(name, type(int), default)
-        self.parameters.append(parameter)
-        self.paramters_by_name[name] = parameter
-
-    def register_bool(self, name, default=False):
-        assert name is not None, "Expecting not None name"
-        assert isinstance(name, str), "Expecting name to be a string"
-
-        assert default is not None, "Expecting a not None default"
-        assert isinstance(default, bool), "Expecting name to be a bool"
-
-        parameter = self.Parameter(name, type(bool), default)
-        self.parameters.append(parameter)
-        self.paramters_by_name[name] = parameter
+    def __getitem__(self, key):
+        assert key in self.parameters_by_name, "Could not retrieve parameter with given name"
+        return self.parameters_by_name[key]
