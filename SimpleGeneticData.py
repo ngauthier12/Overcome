@@ -30,3 +30,11 @@ class SimpleGeneticData(IGeneticData):
     def __getitem__(self, key):
         assert key in self.parameters_by_name, "Could not retrieve parameter with given name"
         return self.parameters_by_name[key]
+
+    def regen_from_parents(self, parent1, parent2):
+        # todo
+        pass
+
+    def mutate_once(self):
+        # todo
+        pass
