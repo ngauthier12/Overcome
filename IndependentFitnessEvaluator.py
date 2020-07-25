@@ -18,6 +18,6 @@ class IndependentFitnessEvaluator(IFitnessEvaluator):
         assert individual is not None, "Expecting not None individual"
         assert isinstance(individual, IGeneticData), "Expecting individual to be an IGeneticData"
 
-        result = self.evaluation_function(individual)
+        result = self.evaluation_function(individual, population)
         assert isinstance(result, float), "Expecting result of evaluation_function to be a float"
         return result

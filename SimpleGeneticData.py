@@ -12,6 +12,9 @@ class SimpleGeneticData(IGeneticData):
             self.variable_type = variable_type
             self.value = value
 
+        def __str__(self):
+            return "{0} ({1}): {2}".format(self.name, self.variable_type, self.value)
+
     def __init__(self):
         super().__init__()
         self.parameters = []
@@ -40,9 +43,9 @@ class SimpleGeneticData(IGeneticData):
         assert isinstance(parent2, SimpleGeneticData), "Expecting parent2 to be a SimpleGeneticData"
 
         center = self.__get_random_index()
-        for index in self.parameters[:center]:
+        for index in range(0, center):
             self.parameters[index].value = parent1.parameters[index].value
-        for index in self.parameters[center:]:
+        for index in range(center, len(self.parameters) - 1):
             self.parameters[index].value = parent2.parameters[index].value
 
     def mutate_once(self):
@@ -59,3 +62,6 @@ class SimpleGeneticData(IGeneticData):
     def __get_random_index(self):
         return int(round(random.uniform(0, len(self.parameters) - 1)))
 
+    def __str__(self):
+        strings = map(lambda p: str(p), self.parameters)
+        return "\n".join(strings)
