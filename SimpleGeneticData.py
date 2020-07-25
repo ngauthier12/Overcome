@@ -1,3 +1,4 @@
+import random
 from IGeneticData import *
 
 
@@ -32,9 +33,26 @@ class SimpleGeneticData(IGeneticData):
         return self.parameters_by_name[key]
 
     def regen_from_parents(self, parent1, parent2):
-        # todo
-        pass
+        assert parent1 is not None, "Expecting not None parent1"
+        assert isinstance(parent1, SimpleGeneticData), "Expecting parent1 to be a SimpleGeneticData"
+
+        assert parent2 is not None, "Expecting not None parent2"
+        assert isinstance(parent2, SimpleGeneticData), "Expecting parent2 to be a SimpleGeneticData"
+
+        center = self.__get_random_index()
+        for index in self.parameters[:center]:
+            self.parameters[index].value = parent1.parameters[index].value
+        for index in self.parameters[center:]:
+            self.parameters[index].value = parent2.parameters[index].value
 
     def mutate_once(self):
+        index = self.__get_random_index()
+        parameter = self.parameters[index]
+
         # todo
-        pass
+        #if parameter.variable_type == int:
+        #    parameter.value = random.randint()
+
+    def __get_random_index(self):
+        return int(round(random.uniform(0, len(self.parameters) - 1)))
+
