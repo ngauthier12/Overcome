@@ -4,7 +4,7 @@ from IGeneticData import *
 
 class SimpleGeneticData(IGeneticData):
 
-    supported_types = [float, int, bool]
+    supported_types = [float]
 
     class Parameter:
         def __init__(self, name, variable_type, value):
@@ -30,7 +30,7 @@ class SimpleGeneticData(IGeneticData):
 
     def __getitem__(self, key):
         assert key in self.parameters_by_name, "Could not retrieve parameter with given name"
-        return self.parameters_by_name[key]
+        return self.parameters_by_name[key].value
 
     def regen_from_parents(self, parent1, parent2):
         assert parent1 is not None, "Expecting not None parent1"
@@ -46,12 +46,15 @@ class SimpleGeneticData(IGeneticData):
             self.parameters[index].value = parent2.parameters[index].value
 
     def mutate_once(self):
+        # Pick one random parameter
         index = self.__get_random_index()
         parameter = self.parameters[index]
 
-        # todo
-        #if parameter.variable_type == int:
-        #    parameter.value = random.randint()
+        # Re-roll it according to type
+        if parameter.variable_type == float:
+            parameter.value = random.uniform(0, 1)
+        else:
+            assert False, "mutate_once does not support this type"
 
     def __get_random_index(self):
         return int(round(random.uniform(0, len(self.parameters) - 1)))
