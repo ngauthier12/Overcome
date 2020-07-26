@@ -5,17 +5,15 @@ from IndependentFitnessEvaluator import *
 
 def create_genetic_data():
     genetic_data = SimpleGeneticData()
-    genetic_data["a"] = 0.0
-    genetic_data["b"] = 1.0
-    genetic_data["c"] = 2.0
+    genetic_data["x"] = 10.
+    genetic_data["y"] = -10.
     return genetic_data
 
 
 def evaluate_fitness(individual, population):
-    a = individual["a"]
-    b = individual["b"]
-    c = individual["b"]
-    return a + b - c
+    x = individual["x"]
+    y = individual["y"]
+    return -(x * x) - (y * y)
 
 
 if __name__ == "__main__":
